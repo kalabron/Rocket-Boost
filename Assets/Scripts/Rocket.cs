@@ -34,10 +34,34 @@ public class Rocket : MonoBehaviour
     void Update()
     {
         if (state == State.Alive)
+        {
+            RespondToThrustInput();
+            RespondToRotateInput();
+
+            if (Debug.isDebugBuild)
             {
-                RespondToThrustInput();
-                RespondToRotateInput();
+                RespondToLCheatCode();
+                RespondToCCheatCode();
             }
+
+        }
+    }
+
+    private void RespondToCCheatCode()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            // insert code for toggling collision detection on and off
+        }
+    }
+
+    private void RespondToLCheatCode()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            // Invoke("LoadNextScene", 0.2f);
+            LoadNextScene();
+        }
     }
 
     private void RespondToRotateInput()
@@ -105,7 +129,13 @@ public class Rocket : MonoBehaviour
 
     private void LoadNextScene()
     {
-        SceneManager.LoadScene(1);  //todo allow for more than 2 levels
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1; // to do do the right thing
+        if (nextSceneIndex == SceneManager.sceneCountInBuildSettings)
+        {
+            nextSceneIndex = 0; // loop back to beginning
+        }
+        SceneManager.LoadScene(nextSceneIndex);  
     }
 
     private void RespondToThrustInput()
