@@ -23,7 +23,7 @@ public class Oscillator : MonoBehaviour
     void Update()
     {
         // set movementFactor automatically
-        // todo protect against period is zero
+        if (period <= Mathf.Epsilon) { return; } // protect against period is zero
 
         float cycles = Time.time / period;  // grows continually from 0
 
